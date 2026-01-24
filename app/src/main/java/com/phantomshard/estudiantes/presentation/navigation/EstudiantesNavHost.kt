@@ -7,10 +7,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.phantomshard.estudiantes.presentation.edit.EditTaskScreen
 import com.phantomshard.estudiantes.presentation.list.ListTaskScreen
+import com.phantomshard.estudiantes.presentation.asignaturas.list.ListAsignaturaScreen
+import com.phantomshard.estudiantes.presentation.asignaturas.edit.EditAsignaturaScreen
 
 @Composable
 fun EstudiantesNavHost(
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    onOpenDrawer: () -> Unit
 ) {
     NavHost(
         navController = navHostController,
@@ -18,8 +21,11 @@ fun EstudiantesNavHost(
     ) {
         composable<Screen.TaskList> {
             ListTaskScreen(
+                onOpenDrawer = onOpenDrawer,
                 navigateToEditTask = { taskId ->
-                    navHostController.navigate(Screen.EditTask(taskId))
+                    navHostController.navigate(Screen.EditTask(taskId)) {
+                        launchSingleTop = true
+                    }
                 }
             )
         }
@@ -29,6 +35,27 @@ fun EstudiantesNavHost(
             EditTaskScreen(
                 taskId = args.taskId,
                 goBack = {
+                    navHostController.navigateUp()
+                }
+            )
+        }
+
+        composable<Screen.AsignaturaList> {
+            ListAsignaturaScreen(
+                onOpenDrawer = onOpenDrawer,
+                onNavigateToEdit = { id ->
+                    navHostController.navigate(Screen.EditAsignatura(id)) {
+                        launchSingleTop = true
+                    }
+                }
+            )
+        }
+
+        composable<Screen.EditAsignatura> { backStackEntry ->
+            val args = backStackEntry.toRoute<Screen.EditAsignatura>()
+            EditAsignaturaScreen(
+                asignaturaId = args.asignaturaId,
+                onBack = {
                     navHostController.navigateUp()
                 }
             )
