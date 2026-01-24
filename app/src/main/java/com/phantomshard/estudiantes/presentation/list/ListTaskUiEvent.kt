@@ -8,4 +8,5 @@ sealed class ListTaskUiEvent {
     data object ClearMessage : ListTaskUiEvent()
     data object CreateNew : ListTaskUiEvent()
     data class Edit(val id: Int) : ListTaskUiEvent()
+    data object NavigationDone : ListTaskUiEvent()
 }

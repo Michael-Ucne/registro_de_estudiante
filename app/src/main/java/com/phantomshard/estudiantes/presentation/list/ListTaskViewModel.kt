@@ -34,6 +34,7 @@ class ListTaskViewModel @Inject constructor(
             ListTaskUiEvent.ClearMessage -> _state.update { it.copy(message = null) }
             ListTaskUiEvent.CreateNew -> _state.update { it.copy(navigateToCreate = true) }
             is ListTaskUiEvent.Edit -> _state.update { it.copy(navigateToEditId = event.id) }
+            ListTaskUiEvent.NavigationDone -> _state.update { it.copy(navigateToCreate = false, navigateToEditId = null) }
         }
     }
 
