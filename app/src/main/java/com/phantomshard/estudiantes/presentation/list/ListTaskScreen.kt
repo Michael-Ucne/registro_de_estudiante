@@ -9,6 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.getValue
@@ -23,6 +24,7 @@ import com.phantomshard.estudiantes.domain.model.Task
 
 @Composable
 fun ListTaskScreen(
+    onOpenDrawer: () -> Unit = {},
     navigateToEditTask: (taskId: Int) -> Unit,
     viewModel: ListTaskViewModel = hiltViewModel()
 ) {
@@ -31,18 +33,21 @@ fun ListTaskScreen(
     LaunchedEffect(state.navigateToCreate) {
         if (state.navigateToCreate) {
             navigateToEditTask(0)
+            viewModel.onEvent(ListTaskUiEvent.NavigationDone)
         }
     }
     
     LaunchedEffect(state.navigateToEditId) {
         state.navigateToEditId?.let { id ->
             navigateToEditTask(id)
+            viewModel.onEvent(ListTaskUiEvent.NavigationDone)
         }
     }
 
     ListTaskBody(
         state = state,
         onEvent = viewModel::onEvent,
+        onOpenDrawer = onOpenDrawer,
         navigateToEditTask = navigateToEditTask
     )
 }
@@ -52,12 +57,18 @@ fun ListTaskScreen(
 fun ListTaskBody(
     state: ListTaskUiState,
     onEvent: (ListTaskUiEvent) -> Unit,
+    onOpenDrawer: () -> Unit,
     navigateToEditTask: (taskId: Int) -> Unit
 ) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Lista de Estudiantes") }
+                title = { Text("Lista de Estudiantes") },
+                navigationIcon = {
+                    IconButton(onClick = onOpenDrawer) {
+                        Icon(imageVector = Icons.Default.Menu, contentDescription = "Menú")
+                    }
+                }
             )
         },
         floatingActionButton = {
@@ -178,6 +189,7 @@ private fun ListTaskBodyPreview() {
         ListTaskBody(
             state = state,
             onEvent = {},
+            onOpenDrawer = {},
             navigateToEditTask = { _ -> }
         )
     }

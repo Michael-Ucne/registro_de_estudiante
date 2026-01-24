@@ -8,4 +8,10 @@ sealed class Screen {
 
     @Serializable
     data class EditTask(val taskId: Int) : Screen()
+
+    @Serializable
+    data object AsignaturaList : Screen()
+
+    @Serializable
+    data class EditAsignatura(val asignaturaId: Int) : Screen()
 }

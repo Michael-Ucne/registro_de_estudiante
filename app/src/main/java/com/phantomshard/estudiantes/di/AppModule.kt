@@ -4,8 +4,11 @@ import android.content.Context
 import androidx.room.Room
 import com.phantomshard.estudiantes.data.estudiantes.local.TaskDao
 import com.phantomshard.estudiantes.data.estudiantes.repository.TaskRepositoryImpl
+import com.phantomshard.estudiantes.data.asignaturas.local.AsignaturaDao
+import com.phantomshard.estudiantes.data.asignaturas.repository.AsignaturaRepositoryImpl
 import com.phantomshard.estudiantes.data.local.database.EstudiantesDb
 import com.phantomshard.estudiantes.domain.repository.TaskRepository
+import com.phantomshard.estudiantes.domain.repository.AsignaturaRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,4 +36,12 @@ object AppModule {
     @Provides
     @Singleton
     fun provideTaskRepository(taskDao: TaskDao): TaskRepository = TaskRepositoryImpl(taskDao)
+
+    @Provides
+    @Singleton
+    fun provideAsignaturaDao(estudiantesDb: EstudiantesDb) = estudiantesDb.asignaturaDao()
+
+    @Provides
+    @Singleton
+    fun provideAsignaturaRepository(asignaturaDao: AsignaturaDao): AsignaturaRepository = AsignaturaRepositoryImpl(asignaturaDao)
 }
