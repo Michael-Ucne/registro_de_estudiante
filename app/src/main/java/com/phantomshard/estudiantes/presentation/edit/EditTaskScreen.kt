@@ -138,15 +138,19 @@ private fun EditTaskBody(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Button(
-                    onClick = { onEvent(EditTaskUiEvent.Save) },
+                    onClick = { if (!state.isSaving) onEvent(EditTaskUiEvent.Save) },
                     enabled = !state.isSaving,
                     modifier = Modifier
                         .weight(1f)
                         .testTag("btn_guardar")
                 ) {
-                    Icon(Icons.Default.Check, contentDescription = null)
-                    Spacer(Modifier.width(8.dp))
-                    Text("Guardar")
+                    if (state.isSaving) {
+                        CircularProgressIndicator(modifier = Modifier.size(24.dp))
+                    } else {
+                        Icon(Icons.Default.Check, contentDescription = null)
+                        Spacer(Modifier.width(8.dp))
+                        Text("Guardar")
+                    }
                 }
 
                 if (!state.isNew) {
