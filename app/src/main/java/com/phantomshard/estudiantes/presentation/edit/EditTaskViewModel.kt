@@ -111,9 +111,7 @@ class EditTaskViewModel @Inject constructor(
                 _state.update {
                     it.copy(
                         isSaving = false,
-                        saved = true,
-                        estudianteId = newId,
-                        isNew = false
+                        saved = true
                     )
                 }
             }.onFailure { exception ->
