@@ -7,15 +7,20 @@ import com.phantomshard.estudiantes.data.estudiantes.local.EstudianteEntity
 import com.phantomshard.estudiantes.data.asignaturas.local.AsignaturaDao
 import com.phantomshard.estudiantes.data.asignaturas.local.AsignaturaEntity
 
+import com.phantomshard.estudiantes.data.penalidades.local.TipoPenalidadDao
+import com.phantomshard.estudiantes.data.penalidades.local.TipoPenalidadEntity
+
 @Database(
     entities = [
         EstudianteEntity::class,
-        AsignaturaEntity::class
+        AsignaturaEntity::class,
+        TipoPenalidadEntity::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class EstudiantesDb : RoomDatabase() {
     abstract fun estudianteDao(): EstudianteDao
     abstract fun asignaturaDao(): AsignaturaDao
+    abstract fun tipoPenalidadDao(): TipoPenalidadDao
 }
