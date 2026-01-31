@@ -1,16 +1,16 @@
-package com.phantomshard.estudiantes.presentation.edit
+package com.phantomshard.estudiantes.presentation.estudiantes.edit
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import com.phantomshard.estudiantes.domain.model.Task
-import com.phantomshard.estudiantes.domain.usecase.DeleteTaskUseCase
-import com.phantomshard.estudiantes.domain.usecase.GetTaskUseCase
-import com.phantomshard.estudiantes.domain.usecase.UpsertTaskUseCase
-import com.phantomshard.estudiantes.domain.usecase.validateNombre
-import com.phantomshard.estudiantes.domain.usecase.validateEmail
-import com.phantomshard.estudiantes.domain.usecase.validateEdad
+import com.phantomshard.estudiantes.domain.model.Estudiante
+import com.phantomshard.estudiantes.domain.usecase.estudiantes.DeleteEstudianteUseCase
+import com.phantomshard.estudiantes.domain.usecase.estudiantes.GetEstudianteUseCase
+import com.phantomshard.estudiantes.domain.usecase.estudiantes.UpsertEstudianteUseCase
+import com.phantomshard.estudiantes.domain.usecase.estudiantes.validateNombre
+import com.phantomshard.estudiantes.domain.usecase.estudiantes.validateEmail
+import com.phantomshard.estudiantes.domain.usecase.estudiantes.validateEdad
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,55 +19,55 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class EditTaskViewModel @Inject constructor(
-    private val getTaskUseCase: GetTaskUseCase,
-    private val upsertTaskUseCase: UpsertTaskUseCase,
-    private val deleteTaskUseCase: DeleteTaskUseCase,
+class EditEstudianteViewModel @Inject constructor(
+    private val getEstudianteUseCase: GetEstudianteUseCase,
+    private val upsertEstudianteUseCase: UpsertEstudianteUseCase,
+    private val deleteEstudianteUseCase: DeleteEstudianteUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val taskId: Int = savedStateHandle["taskId"] ?: 0
+    private val estudianteId: Int = savedStateHandle["estudianteId"] ?: 0
 
-    private val _state = MutableStateFlow(EditTaskUiState())
-    val state: StateFlow<EditTaskUiState> = _state.asStateFlow()
+    private val _state = MutableStateFlow(EditEstudianteUiState())
+    val state: StateFlow<EditEstudianteUiState> = _state.asStateFlow()
 
     init {
-        loadTask(taskId)
+        loadEstudiante(estudianteId)
     }
 
-    fun onEvent(event: EditTaskUiEvent) {
+    fun onEvent(event: EditEstudianteUiEvent) {
         when (event) {
-            is EditTaskUiEvent.Load -> loadTask(event.id)
-            is EditTaskUiEvent.NombreChanged -> _state.update {
+            is EditEstudianteUiEvent.Load -> loadEstudiante(event.id)
+            is EditEstudianteUiEvent.NombreChanged -> _state.update {
                 it.copy(nombre = event.value, nombreError = null)
             }
-            is EditTaskUiEvent.EmailChanged -> _state.update {
+            is EditEstudianteUiEvent.EmailChanged -> _state.update {
                 it.copy(email = event.value, emailError = null)
             }
-            is EditTaskUiEvent.EdadChanged -> _state.update {
+            is EditEstudianteUiEvent.EdadChanged -> _state.update {
                 it.copy(edad = event.value, edadError = null)
             }
-            EditTaskUiEvent.Save -> onSave()
-            EditTaskUiEvent.Delete -> onDelete()
+            EditEstudianteUiEvent.Save -> onSave()
+            EditEstudianteUiEvent.Delete -> onDelete()
         }
     }
 
-    private fun loadTask(id: Int?) {
+    private fun loadEstudiante(id: Int?) {
         if (id == null || id == 0) {
             _state.update { it.copy(isNew = true, estudianteId = null) }
             return
         }
 
         viewModelScope.launch {
-            val task = getTaskUseCase(id)
-            if (task != null) {
+            val estudiante = getEstudianteUseCase(id)
+            if (estudiante != null) {
                 _state.update {
                     it.copy(
                         isNew = false,
-                        estudianteId = task.estudianteId,
-                        nombre = task.nombre,
-                        email = task.email,
-                        edad = task.edad.toString()
+                        estudianteId = estudiante.estudianteId,
+                        nombre = estudiante.nombre,
+                        email = estudiante.email,
+                        edad = estudiante.edad.toString()
                     )
                 }
             } else {
@@ -99,14 +99,14 @@ class EditTaskViewModel @Inject constructor(
         viewModelScope.launch {
             _state.update { it.copy(isSaving = true) }
 
-            val task = Task(
+            val estudiante = Estudiante(
                 estudianteId = state.value.estudianteId ?: 0,
                 nombre = nombre,
                 email = email,
                 edad = edad.toInt()
             )
 
-            val result = upsertTaskUseCase(task)
+            val result = upsertEstudianteUseCase(estudiante)
             result.onSuccess { newId ->
                 _state.update {
                     it.copy(
@@ -124,7 +124,7 @@ class EditTaskViewModel @Inject constructor(
         val id = state.value.estudianteId ?: return
         viewModelScope.launch {
             _state.update { it.copy(isDeleting = true) }
-            deleteTaskUseCase(id)
+            deleteEstudianteUseCase(id)
             _state.update { it.copy(isDeleting = false, deleted = true) }
         }
     }

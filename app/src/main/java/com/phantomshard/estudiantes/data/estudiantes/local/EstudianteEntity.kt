@@ -3,8 +3,8 @@ package com.phantomshard.estudiantes.data.estudiantes.local
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "tasks")
-data class TaskEntity(
+@Entity(tableName = "estudiantes")
+data class EstudianteEntity(
     @PrimaryKey(autoGenerate = true)
     val estudianteId: Int = 0,
     val nombre: String,

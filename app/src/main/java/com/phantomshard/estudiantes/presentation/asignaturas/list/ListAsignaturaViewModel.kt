@@ -2,8 +2,8 @@ package com.phantomshard.estudiantes.presentation.asignaturas.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.phantomshard.estudiantes.domain.usecase.DeleteAsignaturaUseCase
-import com.phantomshard.estudiantes.domain.usecase.ObserveAsignaturasUseCase
+import com.phantomshard.estudiantes.domain.usecase.asignaturas.DeleteAsignaturaUseCase
+import com.phantomshard.estudiantes.domain.usecase.asignaturas.ObserveAsignaturasUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

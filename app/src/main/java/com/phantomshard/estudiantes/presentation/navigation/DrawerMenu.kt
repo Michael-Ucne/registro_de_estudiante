@@ -75,10 +75,10 @@ fun DrawerMenu(
                         DrawerItem(
                             title = "Estudiantes",
                             icon = Icons.Filled.Person,
-                            isSelected = currentDestination?.hasRoute<Screen.TaskList>() == true || 
-                                         currentDestination?.hasRoute<Screen.EditTask>() == true
+                            isSelected = currentDestination?.hasRoute<Screen.EstudianteList>() == true || 
+                                         currentDestination?.hasRoute<Screen.EditEstudiante>() == true
                         ) {
-                            handleItemClick(Screen.TaskList)
+                            handleItemClick(Screen.EstudianteList)
                         }
 
                         DrawerItem(
@@ -88,6 +88,15 @@ fun DrawerMenu(
                                          currentDestination?.hasRoute<Screen.EditAsignatura>() == true
                         ) {
                             handleItemClick(Screen.AsignaturaList)
+                        }
+
+                        DrawerItem(
+                            title = "Tipos de Penalidades",
+                            icon = Icons.Filled.Person,
+                            isSelected = currentDestination?.hasRoute<Screen.TipoPenalidadList>() == true ||
+                                         currentDestination?.hasRoute<Screen.EditTipoPenalidad>() == true
+                        ) {
+                            handleItemClick(Screen.TipoPenalidadList)
                         }
                     }
                 }

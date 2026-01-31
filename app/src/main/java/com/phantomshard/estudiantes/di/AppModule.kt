@@ -2,13 +2,16 @@ package com.phantomshard.estudiantes.di
 
 import android.content.Context
 import androidx.room.Room
-import com.phantomshard.estudiantes.data.estudiantes.local.TaskDao
-import com.phantomshard.estudiantes.data.estudiantes.repository.TaskRepositoryImpl
+import com.phantomshard.estudiantes.data.estudiantes.local.EstudianteDao
+import com.phantomshard.estudiantes.data.estudiantes.repository.EstudianteRepositoryImpl
 import com.phantomshard.estudiantes.data.asignaturas.local.AsignaturaDao
 import com.phantomshard.estudiantes.data.asignaturas.repository.AsignaturaRepositoryImpl
 import com.phantomshard.estudiantes.data.local.database.EstudiantesDb
-import com.phantomshard.estudiantes.domain.repository.TaskRepository
+import com.phantomshard.estudiantes.domain.repository.EstudianteRepository
 import com.phantomshard.estudiantes.domain.repository.AsignaturaRepository
+import com.phantomshard.estudiantes.data.penalidades.local.TipoPenalidadDao
+import com.phantomshard.estudiantes.data.penalidades.repository.TipoPenalidadRepositoryImpl
+import com.phantomshard.estudiantes.domain.repository.TipoPenalidadRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,11 +34,11 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideTaskDao(estudiantesDb: EstudiantesDb) = estudiantesDb.taskDao()
+    fun provideEstudianteDao(estudiantesDb: EstudiantesDb) = estudiantesDb.estudianteDao()
 
     @Provides
     @Singleton
-    fun provideTaskRepository(taskDao: TaskDao): TaskRepository = TaskRepositoryImpl(taskDao)
+    fun provideEstudianteRepository(estudianteDao: EstudianteDao): EstudianteRepository = EstudianteRepositoryImpl(estudianteDao)
 
     @Provides
     @Singleton
@@ -43,5 +46,15 @@ object AppModule {
 
     @Provides
     @Singleton
+    @Provides
+    @Singleton
     fun provideAsignaturaRepository(asignaturaDao: AsignaturaDao): AsignaturaRepository = AsignaturaRepositoryImpl(asignaturaDao)
+
+    @Provides
+    @Singleton
+    fun provideTipoPenalidadDao(estudiantesDb: EstudiantesDb) = estudiantesDb.tipoPenalidadDao()
+
+    @Provides
+    @Singleton
+    fun provideTipoPenalidadRepository(dao: TipoPenalidadDao): TipoPenalidadRepository = TipoPenalidadRepositoryImpl(dao)
 }
