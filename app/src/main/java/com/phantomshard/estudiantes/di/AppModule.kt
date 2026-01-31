@@ -46,8 +46,6 @@ object AppModule {
 
     @Provides
     @Singleton
-    @Provides
-    @Singleton
     fun provideAsignaturaRepository(asignaturaDao: AsignaturaDao): AsignaturaRepository = AsignaturaRepositoryImpl(asignaturaDao)
 
     @Provides
