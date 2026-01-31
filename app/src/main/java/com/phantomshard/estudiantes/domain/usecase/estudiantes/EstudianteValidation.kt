@@ -1,9 +1,7 @@
-package com.phantomshard.estudiantes.domain.usecase
+package com.phantomshard.estudiantes.domain.usecase.estudiantes
 
-data class ValidationResult(
-    val isValid: Boolean,
-    val error: String? = null
-)
+import com.phantomshard.estudiantes.domain.model.ValidationResult
+
 
 fun validateNombre(value: String): ValidationResult {
     if (value.isBlank()) return ValidationResult(false, "El nombre es requerido")

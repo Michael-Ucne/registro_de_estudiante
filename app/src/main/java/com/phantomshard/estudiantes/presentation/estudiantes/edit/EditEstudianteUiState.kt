@@ -1,6 +1,6 @@
-package com.phantomshard.estudiantes.presentation.edit
+package com.phantomshard.estudiantes.presentation.estudiantes.edit
 
-data class EditTaskUiState(
+data class EditEstudianteUiState(
     val estudianteId: Int? = null,
     val nombre: String = "",
     val email: String = "",

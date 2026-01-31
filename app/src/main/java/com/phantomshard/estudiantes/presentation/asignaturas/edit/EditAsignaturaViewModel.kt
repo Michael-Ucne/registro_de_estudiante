@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.phantomshard.estudiantes.domain.model.Asignatura
-import com.phantomshard.estudiantes.domain.usecase.*
+import com.phantomshard.estudiantes.domain.usecase.asignaturas.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
