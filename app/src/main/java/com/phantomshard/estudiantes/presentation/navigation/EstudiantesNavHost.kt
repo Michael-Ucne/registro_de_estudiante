@@ -5,8 +5,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.phantomshard.estudiantes.presentation.edit.EditTaskScreen
-import com.phantomshard.estudiantes.presentation.list.ListTaskScreen
+import com.phantomshard.estudiantes.presentation.estudiantes.edit.EditEstudianteScreen
+import com.phantomshard.estudiantes.presentation.estudiantes.list.ListEstudianteScreen
 import com.phantomshard.estudiantes.presentation.asignaturas.list.ListAsignaturaScreen
 import com.phantomshard.estudiantes.presentation.asignaturas.edit.EditAsignaturaScreen
 
@@ -17,23 +17,23 @@ fun EstudiantesNavHost(
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = Screen.TaskList
+        startDestination = Screen.EstudianteList
     ) {
-        composable<Screen.TaskList> {
-            ListTaskScreen(
+        composable<Screen.EstudianteList> {
+            ListEstudianteScreen(
                 onOpenDrawer = onOpenDrawer,
-                navigateToEditTask = { taskId ->
-                    navHostController.navigate(Screen.EditTask(taskId)) {
+                navigateToEditEstudiante = { estudianteId ->
+                    navHostController.navigate(Screen.EditEstudiante(estudianteId)) {
                         launchSingleTop = true
                     }
                 }
             )
         }
         
-        composable<Screen.EditTask> { backStackEntry ->
-            val args = backStackEntry.toRoute<Screen.EditTask>()
-            EditTaskScreen(
-                taskId = args.taskId,
+        composable<Screen.EditEstudiante> { backStackEntry ->
+            val args = backStackEntry.toRoute<Screen.EditEstudiante>()
+            EditEstudianteScreen(
+                estudianteId = args.estudianteId,
                 goBack = {
                     navHostController.navigateUp()
                 }

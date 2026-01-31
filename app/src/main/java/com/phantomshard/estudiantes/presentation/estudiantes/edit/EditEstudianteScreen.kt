@@ -1,4 +1,4 @@
-package com.phantomshard.estudiantes.presentation.edit
+package com.phantomshard.estudiantes.presentation.estudiantes.edit
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
@@ -17,10 +17,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
-fun EditTaskScreen(
-    taskId: Int,
+fun EditEstudianteScreen(
+    estudianteId: Int,
     goBack: (() -> Unit)? = null,
-    viewModel: EditTaskViewModel = hiltViewModel()
+    viewModel: EditEstudianteViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -32,7 +32,7 @@ fun EditTaskScreen(
         if (state.deleted) goBack?.invoke()
     }
 
-    EditTaskBody(
+    EditEstudianteBody(
         state = state,
         onEvent = viewModel::onEvent,
         goBack = goBack
@@ -41,9 +41,9 @@ fun EditTaskScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun EditTaskBody(
-    state: EditTaskUiState,
-    onEvent: (EditTaskUiEvent) -> Unit,
+private fun EditEstudianteBody(
+    state: EditEstudianteUiState,
+    onEvent: (EditEstudianteUiEvent) -> Unit,
     goBack: (() -> Unit)? = null
 ) {
     Scaffold(
@@ -76,7 +76,7 @@ private fun EditTaskBody(
 
             OutlinedTextField(
                 value = state.nombre,
-                onValueChange = { onEvent(EditTaskUiEvent.NombreChanged(it)) },
+                onValueChange = { onEvent(EditEstudianteUiEvent.NombreChanged(it)) },
                 label = { Text("Nombre") },
                 isError = state.nombreError != null,
                 modifier = Modifier
@@ -95,7 +95,7 @@ private fun EditTaskBody(
 
             OutlinedTextField(
                 value = state.email,
-                onValueChange = { onEvent(EditTaskUiEvent.EmailChanged(it)) },
+                onValueChange = { onEvent(EditEstudianteUiEvent.EmailChanged(it)) },
                 label = { Text("Email") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                 isError = state.emailError != null,
@@ -115,7 +115,7 @@ private fun EditTaskBody(
 
             OutlinedTextField(
                 value = state.edad,
-                onValueChange = { onEvent(EditTaskUiEvent.EdadChanged(it)) },
+                onValueChange = { onEvent(EditEstudianteUiEvent.EdadChanged(it)) },
                 label = { Text("Edad") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 isError = state.edadError != null,
@@ -138,7 +138,7 @@ private fun EditTaskBody(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Button(
-                    onClick = { if (!state.isSaving) onEvent(EditTaskUiEvent.Save) },
+                    onClick = { if (!state.isSaving) onEvent(EditEstudianteUiEvent.Save) },
                     enabled = !state.isSaving,
                     modifier = Modifier
                         .weight(1f)
@@ -156,7 +156,7 @@ private fun EditTaskBody(
                 if (!state.isNew) {
                     Spacer(Modifier.width(8.dp))
                     OutlinedButton(
-                        onClick = { onEvent(EditTaskUiEvent.Delete) },
+                        onClick = { onEvent(EditEstudianteUiEvent.Delete) },
                         enabled = !state.isDeleting,
                         colors = ButtonDefaults.outlinedButtonColors(
                             contentColor = MaterialTheme.colorScheme.error
@@ -177,10 +177,10 @@ private fun EditTaskBody(
 
 @Preview(showBackground = true)
 @Composable
-private fun EditTaskBodyPreview() {
-    val state = EditTaskUiState()
+private fun EditEstudianteBodyPreview() {
+    val state = EditEstudianteUiState()
     MaterialTheme {
-        EditTaskBody(
+        EditEstudianteBody(
             state = state,
             onEvent = {}
         )

@@ -1,4 +1,4 @@
-package com.phantomshard.estudiantes.presentation.list
+package com.phantomshard.estudiantes.presentation.estudiantes.list
 
 import android.util.Log
 import androidx.compose.foundation.clickable
@@ -20,45 +20,45 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.phantomshard.estudiantes.domain.model.Task
+import com.phantomshard.estudiantes.domain.model.Estudiante
 
 @Composable
-fun ListTaskScreen(
+fun ListEstudianteScreen(
     onOpenDrawer: () -> Unit = {},
-    navigateToEditTask: (taskId: Int) -> Unit,
-    viewModel: ListTaskViewModel = hiltViewModel()
+    navigateToEditEstudiante: (estudianteId: Int) -> Unit,
+    viewModel: ListEstudianteViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(state.navigateToCreate) {
         if (state.navigateToCreate) {
-            navigateToEditTask(0)
-            viewModel.onEvent(ListTaskUiEvent.NavigationDone)
+            navigateToEditEstudiante(0)
+            viewModel.onEvent(ListEstudianteUiEvent.NavigationDone)
         }
     }
     
     LaunchedEffect(state.navigateToEditId) {
         state.navigateToEditId?.let { id ->
-            navigateToEditTask(id)
-            viewModel.onEvent(ListTaskUiEvent.NavigationDone)
+            navigateToEditEstudiante(id)
+            viewModel.onEvent(ListEstudianteUiEvent.NavigationDone)
         }
     }
 
-    ListTaskBody(
+    ListEstudianteBody(
         state = state,
         onEvent = viewModel::onEvent,
         onOpenDrawer = onOpenDrawer,
-        navigateToEditTask = navigateToEditTask
+        navigateToEditEstudiante = navigateToEditEstudiante
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListTaskBody(
-    state: ListTaskUiState,
-    onEvent: (ListTaskUiEvent) -> Unit,
+fun ListEstudianteBody(
+    state: ListEstudianteUiState,
+    onEvent: (ListEstudianteUiEvent) -> Unit,
     onOpenDrawer: () -> Unit,
-    navigateToEditTask: (taskId: Int) -> Unit
+    navigateToEditEstudiante: (estudianteId: Int) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -73,7 +73,7 @@ fun ListTaskBody(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { onEvent(ListTaskUiEvent.CreateNew) },
+                onClick = { onEvent(ListEstudianteUiEvent.CreateNew) },
                 modifier = Modifier.testTag("fab_add"),
                 containerColor = MaterialTheme.colorScheme.primary
             ) {
@@ -96,7 +96,7 @@ fun ListTaskBody(
                         .testTag("loading")
                 )
             } else if (state.tasks.isEmpty()) {
-                Log.d("ListTaskScreen", "No hay estudiantes registrados")
+                Log.d("ListEstudianteScreen", "No hay estudiantes registrados")
                 Text(
                     text = "No hay estudiantes registrados",
                     modifier = Modifier.align(Alignment.Center),
@@ -107,14 +107,14 @@ fun ListTaskBody(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(16.dp)
-                        .testTag("task_list")
+                        .testTag("estudiante_list")
                 ) {
-                    items(state.tasks) { task ->
-                        TaskCard(
-                            task = task,
-                            onClick = { onEvent(ListTaskUiEvent.Edit(task.estudianteId)) },
-                            onEdit = { onEvent(ListTaskUiEvent.Edit(task.estudianteId)) },
-                            onDelete = { onEvent(ListTaskUiEvent.Delete(task.estudianteId)) }
+                    items(state.tasks) { estudiante ->
+                        EstudianteCard(
+                            estudiante = estudiante,
+                            onClick = { onEvent(ListEstudianteUiEvent.Edit(estudiante.estudianteId)) },
+                            onEdit = { onEvent(ListEstudianteUiEvent.Edit(estudiante.estudianteId)) },
+                            onDelete = { onEvent(ListEstudianteUiEvent.Delete(estudiante.estudianteId)) }
                         )
                     }
                 }
@@ -124,9 +124,9 @@ fun ListTaskBody(
 }
 
 @Composable
-fun TaskCard(
-    task: Task,
-    onClick: (Task) -> Unit,
+fun EstudianteCard(
+    estudiante: Estudiante,
+    onClick: (Estudiante) -> Unit,
     onEdit: (Int) -> Unit,
     onDelete: (Int) -> Unit
 ) {
@@ -134,7 +134,7 @@ fun TaskCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
-            .testTag("task_card_${task.estudianteId}"),
+            .testTag("estudiante_card_${estudiante.estudianteId}"),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Row(
@@ -146,17 +146,17 @@ fun TaskCard(
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .clickable { onClick(task) }
+                    .clickable { onClick(estudiante) }
             ) {
-                Text(task.nombre, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
-                Text("Email: ${task.email}", style = MaterialTheme.typography.bodyMedium)
-                Text("Edad: ${task.edad}", style = MaterialTheme.typography.bodySmall)
+                Text(estudiante.nombre, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
+                Text("Email: ${estudiante.email}", style = MaterialTheme.typography.bodyMedium)
+                Text("Edad: ${estudiante.edad}", style = MaterialTheme.typography.bodySmall)
             }
             IconButton(
-                onClick = { onEdit(task.estudianteId) },
+                onClick = { onEdit(estudiante.estudianteId) },
                 modifier = Modifier
                     .size(40.dp)
-                    .testTag("edit_button_${task.estudianteId}")
+                    .testTag("edit_button_${estudiante.estudianteId}")
             ) {
                 Icon(
                     imageVector = Icons.Default.Edit,
@@ -166,10 +166,10 @@ fun TaskCard(
             }
             Spacer(modifier = Modifier.width(4.dp))
             IconButton(
-                onClick = { onDelete(task.estudianteId) },
+                onClick = { onDelete(estudiante.estudianteId) },
                 modifier = Modifier
                     .size(40.dp)
-                    .testTag("delete_button_${task.estudianteId}")
+                    .testTag("delete_button_${estudiante.estudianteId}")
             ) {
                 Icon(
                     imageVector = Icons.Default.Delete,
@@ -183,14 +183,14 @@ fun TaskCard(
 
 @Preview(showBackground = true)
 @Composable
-private fun ListTaskBodyPreview() {
-    val state = ListTaskUiState()
+private fun ListEstudianteBodyPreview() {
+    val state = ListEstudianteUiState()
     MaterialTheme {
-        ListTaskBody(
+        ListEstudianteBody(
             state = state,
             onEvent = {},
             onOpenDrawer = {},
-            navigateToEditTask = { _ -> }
+            navigateToEditEstudiante = { _ -> }
         )
     }
 }

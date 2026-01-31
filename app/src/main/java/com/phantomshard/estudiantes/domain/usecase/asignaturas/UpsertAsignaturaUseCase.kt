@@ -1,6 +1,7 @@
-package com.phantomshard.estudiantes.domain.usecase
+package com.phantomshard.estudiantes.domain.usecase.asignaturas
 
 import com.phantomshard.estudiantes.domain.model.Asignatura
+import com.phantomshard.estudiantes.domain.model.ValidationResult
 import com.phantomshard.estudiantes.domain.repository.AsignaturaRepository
 import javax.inject.Inject
 
