@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 sealed class Screen {
     @Serializable
-    @Serializable
+
     data object EstudianteList : Screen()
 
     @Serializable
@@ -15,4 +15,10 @@ sealed class Screen {
 
     @Serializable
     data class EditAsignatura(val asignaturaId: Int) : Screen()
+
+    @Serializable
+    data object TipoPenalidadList : Screen()
+
+    @Serializable
+    data class EditTipoPenalidad(val tipoId: Int) : Screen()
 }

@@ -9,6 +9,8 @@ import com.phantomshard.estudiantes.presentation.estudiantes.edit.EditEstudiante
 import com.phantomshard.estudiantes.presentation.estudiantes.list.ListEstudianteScreen
 import com.phantomshard.estudiantes.presentation.asignaturas.list.ListAsignaturaScreen
 import com.phantomshard.estudiantes.presentation.asignaturas.edit.EditAsignaturaScreen
+import com.phantomshard.estudiantes.presentation.penalidades.list.ListTipoPenalidadScreen
+import com.phantomshard.estudiantes.presentation.penalidades.edit.EditTipoPenalidadScreen
 
 @Composable
 fun EstudiantesNavHost(
@@ -56,6 +58,27 @@ fun EstudiantesNavHost(
             EditAsignaturaScreen(
                 asignaturaId = args.asignaturaId,
                 onBack = {
+                    navHostController.navigateUp()
+                }
+            )
+        }
+
+        composable<Screen.TipoPenalidadList> {
+            ListTipoPenalidadScreen(
+                onOpenDrawer = onOpenDrawer,
+                navigateToEdit = { id ->
+                    navHostController.navigate(Screen.EditTipoPenalidad(id)) {
+                        launchSingleTop = true
+                    }
+                }
+            )
+        }
+
+        composable<Screen.EditTipoPenalidad> { backStackEntry ->
+            val args = backStackEntry.toRoute<Screen.EditTipoPenalidad>()
+            EditTipoPenalidadScreen(
+                tipoId = args.tipoId,
+                goBack = {
                     navHostController.navigateUp()
                 }
             )

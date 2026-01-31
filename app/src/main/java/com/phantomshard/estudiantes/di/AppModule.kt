@@ -9,6 +9,9 @@ import com.phantomshard.estudiantes.data.asignaturas.repository.AsignaturaReposi
 import com.phantomshard.estudiantes.data.local.database.EstudiantesDb
 import com.phantomshard.estudiantes.domain.repository.EstudianteRepository
 import com.phantomshard.estudiantes.domain.repository.AsignaturaRepository
+import com.phantomshard.estudiantes.data.penalidades.local.TipoPenalidadDao
+import com.phantomshard.estudiantes.data.penalidades.repository.TipoPenalidadRepositoryImpl
+import com.phantomshard.estudiantes.domain.repository.TipoPenalidadRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -44,4 +47,12 @@ object AppModule {
     @Provides
     @Singleton
     fun provideAsignaturaRepository(asignaturaDao: AsignaturaDao): AsignaturaRepository = AsignaturaRepositoryImpl(asignaturaDao)
+
+    @Provides
+    @Singleton
+    fun provideTipoPenalidadDao(estudiantesDb: EstudiantesDb) = estudiantesDb.tipoPenalidadDao()
+
+    @Provides
+    @Singleton
+    fun provideTipoPenalidadRepository(dao: TipoPenalidadDao): TipoPenalidadRepository = TipoPenalidadRepositoryImpl(dao)
 }

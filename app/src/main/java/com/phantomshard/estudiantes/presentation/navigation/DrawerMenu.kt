@@ -89,6 +89,15 @@ fun DrawerMenu(
                         ) {
                             handleItemClick(Screen.AsignaturaList)
                         }
+
+                        DrawerItem(
+                            title = "Tipos de Penalidades",
+                            icon = Icons.Filled.Person,
+                            isSelected = currentDestination?.hasRoute<Screen.TipoPenalidadList>() == true ||
+                                         currentDestination?.hasRoute<Screen.EditTipoPenalidad>() == true
+                        ) {
+                            handleItemClick(Screen.TipoPenalidadList)
+                        }
                     }
                 }
             }
